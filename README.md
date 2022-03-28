@@ -1,6 +1,6 @@
-# Backdoor Backend
+# Devit Backend
 
-ExpressJS backend for the cybersecurity forum website - "Backdoor"
+ExpressJS backend for VIT Bhopal forum - "Devit"
 
 ---
 ### Format for `src/config/config.ts`:
