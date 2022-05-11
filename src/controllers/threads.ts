@@ -6,7 +6,7 @@ import Thread from "../database/models/Thread";
 // get all threads details
 export const getAllThreads = async (_req: Request, res: Response) => {
     await Thread
-        .find()
+        .find({ platform: "DEVIT" })
         .then(threads => res.status(200).json(threads))
         .catch(err => {
             console.log(err);
@@ -33,7 +33,12 @@ export const createThread = async (req: Request, res: Response) => {
     if ((req.user as IUser)?.permissionLevel < 3)
         return res.status(401).json({ message: "You do not have the permission to create a thread." });
 
-    await new Thread({ ...thread, title: thread.title.toLocaleLowerCase().replace(/\s/g, '-') , user: (req.user as IUser)?._id })
+    await new Thread({
+        ...thread,
+        title: thread.title.toLocaleLowerCase().replace(/\s/g, '-'),
+        user: (req.user as IUser)?._id,
+        platform: "DEVIT"
+    })
         .save()
         .then(_thread => res.status(200).json({ message: "Thread created successfully" }))
         .catch(err => {
