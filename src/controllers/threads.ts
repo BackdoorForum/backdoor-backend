@@ -7,7 +7,14 @@ import Thread from "../database/models/Thread";
 export const getAllThreads = async (_req: Request, res: Response) => {
     await Thread
         .find({ platform: "DEVIT" })
-        .then(threads => res.status(200).json(threads))
+        .then(threads => {
+            threads.sort((t1, t2) => {
+                if (t1.numberOfPosts < t2.numberOfPosts) return -1;
+                if (t2.numberOfPosts < t1.numberOfPosts) return 1;
+                return 0;
+            });
+            res.status(200).json(threads)
+        })
         .catch(err => {
             console.log(err);
             res.status(404).json({ message: "There was an error while fetching threads." })
